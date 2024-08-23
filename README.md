@@ -1,1 +1,1 @@
-Coding Challanges - we server challenge, written in TS
+Coding Challanges - web server challenge, written in TS
