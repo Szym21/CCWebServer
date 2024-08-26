@@ -1,13 +1,33 @@
 #! /usr/bin/env node
 
-import express from 'express';
+import path from 'path';
+import { HttpServer } from './httpServer';
+const HOST = '127.0.0.1';
+const PORT = 80;
+const dir = path.join('./', 'www');
 
-const app = express();
 
-app.get('/',(req, res) => {
-    res.send('This is a test web page!');
-})
+const createWebServer = (
+    host: string = HOST,
+    port: number = PORT,
+    debug? : boolean
+  ): HttpServer => {
+    const webServer: HttpServer = new HttpServer(host, port);
+  
+    webServer.get('/', (request) => {
+      request.send('Requested path: ' + request.path);
+    });
+  
+    webServer.get('/index.html', async (request) => {
+      await new Promise((res) => setTimeout(res, 5000));
+      request.sendFile(path.join(dir, 'index.html'));
+    });
+  
+    webServer.get('/throw-error', async () => {
+      throw new Error('Some error occurred');
+    });
+  return webServer;
+};
 
-app.listen(80, () => {
-    console.log('The application is listening on port 80...');
-})
+const server = createWebServer(HOST, PORT, true)
+server.startServer();
