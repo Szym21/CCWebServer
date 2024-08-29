@@ -14,8 +14,9 @@ const createWebServer = (
   ): HttpServer => {
     const webServer: HttpServer = new HttpServer(host, port);
   
-    webServer.get('/', (request) => {
-      request.send('Requested path: ' + request.path);
+    webServer.get('/', async (request) => {
+      await new Promise((res) => setTimeout(res, 5000));
+      request.sendFile(path.join(dir, 'index.html'));
     });
   
     webServer.get('/index.html', async (request) => {

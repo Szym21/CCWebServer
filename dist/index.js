@@ -20,9 +20,10 @@ const PORT = 80;
 const dir = path_1.default.join('./', 'www');
 const createWebServer = (host = HOST, port = PORT, debug) => {
     const webServer = new httpServer_1.HttpServer(host, port);
-    webServer.get('/', (request) => {
-        request.send('Requested path: ' + request.path);
-    });
+    webServer.get('/', (request) => __awaiter(void 0, void 0, void 0, function* () {
+        yield new Promise((res) => setTimeout(res, 5000));
+        request.sendFile(path_1.default.join(dir, 'index.html'));
+    }));
     webServer.get('/index.html', (request) => __awaiter(void 0, void 0, void 0, function* () {
         yield new Promise((res) => setTimeout(res, 5000));
         request.sendFile(path_1.default.join(dir, 'index.html'));
